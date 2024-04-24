@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Information</title>
+    <script>
+        function generateFlights(event) {
+            event.preventDefault();
+            const departure = document.getElementById('departure').value;
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('departureDate').value;
+
+            const flights = [];
+            const flightCount = Math.floor(Math.random() * 10) + 1;  // 生成1到10个航班
+            for (let i = 0; i < flightCount; i++) {
+                const flightNumber = Math.floor(Math.random() * 10000);
+                const hour = Math.floor(Math.random() * 24);
+                const minute = Math.floor(Math.random() * 60);
+                const departureTime = `${date} ${hour}:${minute.toString().padStart(2, '0')}`;
+                flights.push({ flightNumber, departure, destination, departureTime });
+            }
+            localStorage.setItem('flights', JSON.stringify(flights));
+            displayFlights();
+        }
+
+        function displayFlights() {
+            const flights = JSON.parse(localStorage.getItem('flights') || '[]');
+            const flightList = document.getElementById('flightList');
+            flightList.innerHTML = flights.map((flight, index) =>
+                `<li>${flight.flightNumber}: From ${flight.departure} To ${flight.destination}, Time: ${flight.departureTime} <button onclick="bookFlight(${index})">Book</button></li>`
+            ).join('');
+        }
+
+        function bookFlight(index) {
+            const flights = JSON.parse(localStorage.getItem('flights') || '[]');
+            const flight = flights[index];
+            localStorage.setItem('bookedFlight', JSON.stringify(flight));
+            window.location.href = 'booking.html'; 
+        }
+    </script>
+</head>
+<body>
+    <h1>Generate and Book Flights</h1>
+    <form onsubmit="generateFlights(event)">
+        <label for="departure">Departure:</label>
+        <input type="text" id="departure" required><br><br>
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" required><br><br>
+        <label for="departureDate">Departure Date:</label>
+        <input type="date" id="departureDate" required><br><br>
+        <button type="submit">Generate Flights</button>
+    </form>
+    <ul id="flightList"></ul>
+</body>
+</html>

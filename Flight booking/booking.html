@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Flight Booking</title>
+    <script>
+        function displayBooking() {
+            const bookedFlight = JSON.parse(localStorage.getItem('bookedFlight'));
+            if (bookedFlight) {
+                document.getElementById('bookingInfo').innerHTML = `
+                    <h3>Booking Details</h3>
+                    <p>Name: ${bookedFlight.name}</p>
+                    <p>Passport Number: ${bookedFlight.passport}</p>
+                    <p>Flight Number: ${bookedFlight.flightNumber}</p>
+                    <p>Departure: ${bookedFlight.departure}</p>
+                    <p>Destination: ${bookedFlight.destination}</p>
+                    <p>Departure Time: ${bookedFlight.departureTime}</p>
+                    <button onclick="confirmPayment()">Confirm Payment</button>
+                    <button onclick="cancelBooking()">Cancel Booking</button>
+                `;
+            } else {
+                document.getElementById('bookingInfo').innerHTML = '<p>No booking found.</p>';
+            }
+        }
+
+        function confirmPayment() {
+            alert("We have not done this function yet.");
+        }
+
+        function cancelBooking() {
+            // Remove the booking from localStorage
+            localStorage.removeItem('bookedFlight');
+            // Redirect to the flights page
+            window.location.href = 'flights.html';
+        }
+
+        window.onload = displayBooking;
+    </script>
+</head>
+<body>
+    <h1>Confirm Your Flight Booking</h1>
+    <div id="bookingInfo"></div>
+</body>
+</html>
