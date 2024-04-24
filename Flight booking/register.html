@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register a new account</title>
+</head>
+<body>
+    <h1>create a new account</h1>
+    <form id="registerForm">
+        <label for="username">username:</label>
+        <input type="text" id="username" required><br><br>
+        <label for="password">password:</label>
+        <input type="password" id="password" required><br><br>
+        <label for="confirmPassword">confirm password:</label>
+        <input type="password" id="confirmPassword" required><br><br>
+        <button type="button" onclick="register()">register</button>
+    </form>
+    <script>
+        function register() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+            if (password !== confirmPassword) {
+                alert('The passwords do not match.');
+                return;
+            }
+
+            if (users.some(user => user.username === username)) {
+                alert('username already exist');
+                return;
+            }
+
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('register success');
+            window.location.href = 'login.html'; 
+        }
+    </script>
+</body>
+</html>
